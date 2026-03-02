@@ -17,10 +17,13 @@
         body {
             background-color: #f0f2f5;
             color: #333;
+            min-height: 100vh;
+        }
+
+        #main-ui {
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
             padding: 20px;
         }
 
@@ -40,15 +43,9 @@
             color: #1a73e8;
         }
 
-        .admin-panel {
-            border-bottom: 2px solid #eee;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-
         textarea {
             width: 100%;
-            height: 150px;
+            height: 200px;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -88,15 +85,34 @@
             background-color: #1557b0;
         }
 
-        #output-container {
-            width: 100%;
-            height: 400px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            margin-top: 20px;
+        #full-page-viewer {
             display: none;
-            overflow: hidden;
-            background: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 9999;
+        }
+
+        #back-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 10000;
+            font-size: 14px;
+            backdrop-filter: blur(5px);
+        }
+
+        #back-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
         }
 
         iframe {
@@ -109,35 +125,27 @@
             .container {
                 padding: 15px;
             }
-            textarea {
-                height: 120px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h2 {
-                font-size: 1.2rem;
-            }
-            .btn {
-                font-size: 14px;
-            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container admin-panel">
-        <h2>অ্যাডমিন প্যানেল</h2>
-        <textarea id="codeInput" placeholder="এখানে আপনার HTML কোড লিখুন..."></textarea>
-        <button class="btn btn-update" onclick="updateCode()">Update Code to Database</button>
+    <div id="main-ui">
+        <div class="container">
+            <h2>অ্যাডমিন প্যানেল</h2>
+            <textarea id="codeInput" placeholder="এখানে আপনার HTML কোড লিখুন..."></textarea>
+            <button class="btn btn-update" onclick="updateCode()">Update Code to Database</button>
+        </div>
+
+        <div class="container">
+            <h2>ইউজার সেকশন</h2>
+            <button class="btn btn-run" onclick="runCode()">Run WebApp Full Page</button>
+        </div>
     </div>
 
-    <div class="container">
-        <h2>ইউজার সেকশন</h2>
-        <button class="btn btn-run" onclick="runCode()">Run WebApp</button>
-        <div id="output-container">
-            <iframe id="outputFrame"></iframe>
-        </div>
+    <div id="full-page-viewer">
+        <button id="back-btn" onclick="closeViewer()">← Back to Admin</button>
+        <iframe id="outputFrame"></iframe>
     </div>
 
     <script>
@@ -157,28 +165,31 @@
         function updateCode() {
             const code = document.getElementById('codeInput').value;
             if (!code) {
-                alert("দয়া করে কিছু কোড লিখুন!");
+                alert("সাজ্জাদ, দয়া করে কিছু কোড লিখুন!");
                 return;
             }
 
             database.ref('appData/currentCode').set(code)
                 .then(() => {
-                    alert("কোড সফলভাবে আপডেট হয়েছে সাজ্জাদ!");
+                    alert("কোড সফলভাবে ডাটাবেসে আপডেট হয়েছে!");
                 })
                 .catch((error) => {
-                    console.error("Error updating code: ", error);
+                    alert("এরর: " + error.message);
                 });
         }
 
         function runCode() {
-            const outputContainer = document.getElementById('output-container');
+            const mainUI = document.getElementById('main-ui');
+            const viewer = document.getElementById('full-page-viewer');
             const iframe = document.getElementById('outputFrame');
 
             database.ref('appData/currentCode').once('value')
                 .then((snapshot) => {
                     const code = snapshot.val();
                     if (code) {
-                        outputContainer.style.display = 'block';
+                        mainUI.style.display = 'none';
+                        viewer.style.display = 'block';
+                        
                         const doc = iframe.contentWindow.document;
                         doc.open();
                         doc.write(code);
@@ -188,8 +199,14 @@
                     }
                 })
                 .catch((error) => {
-                    console.error("Error fetching code: ", error);
+                    alert("এরর: " + error.message);
                 });
+        }
+
+        function closeViewer() {
+            document.getElementById('main-ui').style.display = 'flex';
+            document.getElementById('full-page-viewer').style.display = 'none';
+            document.getElementById('outputFrame').src = "about:blank";
         }
     </script>
 </body>
