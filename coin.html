@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: white;
+            overflow-x: hidden;
+        }
+        .main-container {
+            max-width: 500px;
+            margin: auto;
+            background: radial-gradient(circle, #004d4d, #000);
+            min-height: 100vh;
+            position: relative;
+        }
+        .header {
+            background-color: #1a1a3d;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .header-logo {
+            color: #ff9800;
+            font-size: 24px;
+            font-weight: bold;
+            font-style: italic;
+        }
+        .wheel-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            position: relative;
+        }
+        .coins-info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 14px;
+        }
+        .balance-box {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff9800;
+            padding: 2px 10px;
+            border-radius: 5px;
+            border: 2px solid gold;
+            font-weight: bold;
+            color: #000;
+        }
+        .wheel-outer {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 10px solid #ffd700;
+            position: relative;
+            background: conic-gradient(
+                #ff9800 0deg 45deg, 
+                #4caf50 45deg 90deg, 
+                #ff9800 90deg 135deg, 
+                #4caf50 135deg 180deg,
+                #ff9800 180deg 225deg, 
+                #4caf50 225deg 270deg, 
+                #ff9800 270deg 315deg, 
+                #4caf50 315deg 360deg
+            );
+            box-shadow: 0 0 20px #ffd700;
+            margin-top: 40px;
+        }
+        .spin-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(#fff, #000);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-style: italic;
+            color: #fff;
+            border: 4px solid #333;
+            z-index: 10;
+        }
+        .wheel-pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 40px;
+            background: gold;
+            clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
+            z-index: 11;
+        }
+        .leaderboard {
+            padding: 20px;
+        }
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 25px;
+            padding: 10px 20px;
+            margin-bottom: 10px;
+        }
+        .rank {
+            font-weight: bold;
+            color: #ff0055;
+        }
+        .amount-gold {
+            color: #ffd700;
+            font-weight: bold;
+        }
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            background: #1a1a3d;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 500px;
+        }
+        .nav-item {
+            text-align: center;
+            font-size: 12px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <div class="header">
+        <div class="header-logo">JAYA9</div>
+    </div>
+
+    <div class="wheel-section">
+        <div class="coins-info">
+            <strong>29</strong> coins<br>/swing
+        </div>
+        <div class="balance-box">14 coins</div>
+        
+        <div style="font-weight: bold; color: #ffd700; font-size: 20px; margin-bottom: -30px;">FORTUNE WHEEL</div>
+        
+        <div class="wheel-outer">
+            <div class="wheel-pointer"></div>
+            <div class="spin-btn">Spin</div>
+        </div>
+
+        <div style="margin-top: 20px; font-size: 12px; color: #aaa;">
+            2022-03-15 - 2028-12-31
+        </div>
+    </div>
+
+    <div class="leaderboard">
+        <div class="list-item">
+            <span class="rank">1</span>
+            <span class="amount-gold">৳ 9999</span>
+            <span>৳ 9,999</span>
+        </div>
+        <div class="list-item">
+            <span class="rank" style="color: #666;">2</span>
+            <span class="amount-gold">৳ 2999</span>
+            <span>৳ 2,999</span>
+        </div>
+        <div class="list-item">
+            <span class="rank" style="color: #8b4513;">3</span>
+            <span class="amount-gold">৳ 999</span>
+            <span>৳ 999</span>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item">🏠<br>Home</div>
+        <div class="nav-item">🎁<br>Promotion</div>
+        <div class="nav-item">💰<br>Deposit</div>
+        <div class="nav-item">👤<br>Profile</div>
+    </div>
+</div>
+
+</body>
+</html>
